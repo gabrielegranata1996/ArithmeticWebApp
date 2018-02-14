@@ -31,6 +31,11 @@
 	<% } else if (request.getParameter("actionPow") != null){
 			double risPow= Math.pow(a,b);%>
 			Result of Elevation to power: <%= risPow %>
+	<% } else if (request.getParameter("actionSQRT") != null){
+			double risSQTR_A= Math.sqrt(a);
+			double risSQTR_B= Math.sqrt(b);	%>
+			<br>Result of Square Root about A: <%= risSQTR_A %>
+			<br>Result of Square Root about B: <%= risSQTR_B %> 
 	<% }	%>
 	
 	<br/><input type="button" value="Go Home Page" onclick="history.back()">

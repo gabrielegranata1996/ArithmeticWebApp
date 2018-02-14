@@ -4,7 +4,7 @@
   <groupId>com.sopra</groupId>
   <artifactId>ArithmeticOperationsWebApp</artifactId>
   <packaging>war</packaging>
-  <version>1.1.1-SNAPSHOT</version>
+  <version>1.1.1</version>
   <name>ArithmeticOperationsWebApp Maven Webapp</name>
   <url>http://maven.apache.org</url>
   
