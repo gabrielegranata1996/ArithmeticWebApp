@@ -1,5 +1,7 @@
 # Created by https://www.gitignore.io/api/java
 
+## Intelij Files ##
+.idea/
 ## Eclipse Files ##
 .settings/
 bin/
