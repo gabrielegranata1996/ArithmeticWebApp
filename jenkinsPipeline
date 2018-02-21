@@ -3,7 +3,7 @@ pipeline{
 
     stage('Compile Stage'){
         steps{
-            withMaven(maven : 'Maven_Default'){
+            withMaven(maven : 'Maven Default'){
                 sh 'mvn compile'
             }
         }
@@ -11,16 +11,16 @@ pipeline{
 
     stage ('Package Stage'){
         steps{
-            withMaven(maven : 'Maven_Default'){
+            withMaven(maven : 'Maven Default'){
                 sh 'mvn clean package'
             }
         }
     }
 
-    stage ('Deployment Stage'){
+    stage ('Install Stage'){
         steps{
-            withMaven(maven : 'Maven_Default'){
-                sh 'mvn deploy'
+            withMaven(maven : 'Maven Default'){
+                sh 'mvn clean install'
             }
         }
     }
