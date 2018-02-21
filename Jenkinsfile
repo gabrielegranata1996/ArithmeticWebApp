@@ -8,7 +8,6 @@ pipeline {
       }
     }
     stage('Configuration') {
-      agent any
       steps {
         script {
           def server = Artifactory.server "ART"
@@ -19,6 +18,7 @@ pipeline {
       }
     }
     stage('Artifactory Config') {
+      agent any
       steps {
         script {
           rtMaven.tool = "Maven Default"
@@ -29,6 +29,7 @@ pipeline {
       }
     }
     stage('Maven Build') {
+      agent any
       steps {
         script {
           buildInfo = rtMaven.run pom:'pom.xml', goals:'clean install'
@@ -37,6 +38,7 @@ pipeline {
       }
     }
     stage('Publish Build') {
+      agent any
       steps {
         script {
           server.publishBuildInfo buildInfo
