@@ -1,0 +1,27 @@
+pipeline{
+    agent any
+
+    stage('Compile Stage'){
+        steps{
+            withMaven(maven : 'Maven_Default'){
+                sh 'mvn compile'
+            }
+        }
+    }
+
+    stage ('Package Stage'){
+        steps{
+            withMaven(maven : 'Maven_Default'){
+                sh 'mvn clean package'
+            }
+        }
+    }
+
+    stage ('Deployment Stage'){
+        steps{
+            withMaven(maven : 'Maven_Default'){
+                sh 'mvn deploy'
+            }
+        }
+    }
+}
