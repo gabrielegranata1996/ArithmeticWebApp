@@ -11,27 +11,21 @@ pipeline {
       agent any
       steps {
         script {
-          rtMaven.tool = "Maven Default"
-          
-        }
-        
-        script {
-          rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'libs-snapshot-local', server: server
-        }
-        
-        script {
-          rtMaven.deployer releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
+          node {
+            rtMaven.tool = "Maven Default"
+            rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'libs-snapshot-local', server: server
+            rtMaven.deployer releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
+          }
         }
         
       }
     }
     stage('Maven Build') {
-      environment {
-        buildInfo = ''
-      }
       steps {
         script {
-          buildInfo = rtMaven.run pom:'pom.xml', goals:'clean intall'
+          node{
+            buildInfo = rtMaven.run pom:'pom.xml', goals:'clean intall'
+          }
         }
         
       }
@@ -39,7 +33,9 @@ pipeline {
     stage('Publish Build') {
       steps {
         script {
-          server.publishBuildInfo buildInfo
+          node{
+            server.publishBuildInfo buildInfo
+          }
         }
         
       }
