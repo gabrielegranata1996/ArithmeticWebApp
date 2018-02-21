@@ -1,27 +1,27 @@
-pipeline{
-    agent any
+node{
+    //Get Artifactory server instance, defined in the Artifactory Plugin
+    def server = Artifactory.server "ART"
+    //Create an Artifactory Maven instance
+    def rtMaven = Artifactory.newMavenBuild();
+    def buildInfo
 
-    stage('Compile Stage'){
-        steps{
-            withMaven(maven : 'Maven Default'){
-                sh 'mvn compile'
-            }
-        }
+    stage('Clone sources'){
+        git url: 'https://github.com/gabrielegranata1996/ArithmeticWebApp.git'
     }
 
-    stage ('Package Stage'){
-        steps{
-            withMaven(maven : 'Maven Default'){
-                sh 'mvn clean package'
-            }
-        }
+    stage('Artifactory configuration'){
+        //Tool name from Jenkins configuration
+        rtMaven.tool = "Maven Default"
+        //Set Artifactory repositories from dependencies resolution and artifacts deployment
+        rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'libs-snapshot-local', server: server
+        rtMaven.deployer releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
     }
 
-    stage ('Install Stage'){
-        steps{
-            withMaven(maven : 'Maven Default'){
-                sh 'mvn clean install'
-            }
-        }
+    stage('Maven Build'){
+        buildInfo = rtMaven.run pom:'pom.xml', goals: 'clean install'
+    }
+
+    stage('Publish build info'){
+        server.publishBuildInfo buildInfo
     }
 }
