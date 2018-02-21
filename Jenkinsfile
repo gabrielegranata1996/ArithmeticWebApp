@@ -9,6 +9,10 @@ pipeline {
     }
     stage('Config Artifactory') {
       agent any
+      environment {
+        server = 'Artifactory.server "ART"'
+        rtMaven = 'Artifactory.newMavenBuild();'
+      }
       steps {
         script {
           rtMaven.tool = "Maven Default"
@@ -19,6 +23,9 @@ pipeline {
       }
     }
     stage('Maven Build') {
+      environment {
+        buildInfo = ''
+      }
       steps {
         script {
           buildInfo = rtMaven.run pom:'pom.xml', goals:'clean intall'
@@ -34,10 +41,5 @@ pipeline {
         
       }
     }
-  }
-  environment {
-    server = 'Artifactory.server "ART"'
-    rtMaven = 'Artifactory.newMavenBuild();'
-    buildInfo = ''
   }
 }
