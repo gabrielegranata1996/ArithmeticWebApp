@@ -11,9 +11,7 @@ pipeline {
       agent any
       steps {
         script {
-          //Tool name from Jenkins configuration
           rtMaven.tool = "Maven Default"
-          //Set Artifactory repositories from dependencies resolution and artifacts deployment
           rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'libs-snapshot-local', server: server
           rtMaven.deployer releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
         }
