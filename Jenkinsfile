@@ -10,24 +10,30 @@ pipeline {
     stage('Config Artifactory') {
       agent any
       steps {
-        sh '''rtMaven.tool = "Maven Default"
-rtMaven.deployer releaseRepo:\'libs-release-local\', snapshotRepo:\'libs-snapshot-local\', server: server
-rtMaven.deployer releaseRepo:\'libs-release\', snapshotRepo:\'libs-snapshot\', server: server
-
-
-
-'''
+        script {
+          //Tool name from Jenkins configuration
+          rtMaven.tool = "Maven Default"
+          //Set Artifactory repositories from dependencies resolution and artifacts deployment
+          rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'libs-snapshot-local', server: server
+          rtMaven.deployer releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
+        }
+        
       }
     }
     stage('Maven Build') {
       steps {
-        sh '''def buildInfo
-buildInfo = rtMaven.run pom:\'pom.xml\', goals:\'clean intall\''''
+        script {
+          buildInfo = rtMaven.run pom:'pom.xml', goals:'clean intall'
+        }
+        
       }
     }
     stage('Publish Build') {
       steps {
-        sh 'server.publishBuildInfo buildInfo'
+        script {
+          server.publishBuildInfo buildInfo
+        }
+        
       }
     }
   }
