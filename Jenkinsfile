@@ -1,12 +1,11 @@
 pipeline {
   agent any
-  stages {
     //Get Artifactory server instance, defined in the Artifactory Plugin
     def server = Artifactory.server "ART"
     //Create an Artifactory Maven instance
     def rtMaven = Artifactory.newMavenBuild();
     def buildInfo
-    
+  stages {    
     stage('Clone Sources') {
       agent any
       steps {
