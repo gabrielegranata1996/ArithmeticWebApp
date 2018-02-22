@@ -20,8 +20,8 @@ pipeline {
       agent any
       steps {
         script {
-          echo "${rtMaven}"
-          echo "${server}"
+          echo "${env.server}"
+          echo "${env.rtMaven}"
         }
         
       }
@@ -45,5 +45,10 @@ pipeline {
         
       }
     }
+  }
+  environment {
+    server = 'Artifactory.server "ART"'
+    rtMaven = 'Artifactory.newMavenBuild();'
+    buildInfo = ''
   }
 }
