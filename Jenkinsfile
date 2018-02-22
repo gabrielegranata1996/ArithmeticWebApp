@@ -10,8 +10,8 @@ pipeline {
     stage('Configuration') {
       steps {
         script {
-          ${def server = Artifactory.server "ART"}
-          ${def rtMaven = Artifactory.newMavenBuild()}
+          def server = Artifactory.server "ART"
+          def rtMaven = Artifactory.newMavenBuild()
         }
         
       }
