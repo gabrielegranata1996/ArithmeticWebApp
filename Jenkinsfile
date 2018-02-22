@@ -14,7 +14,6 @@ pipeline {
           def rtMaven = Artifactory.newMavenBuild()
           rtMaven.tool = "Maven Default"
           rtMaven.run pom:'pom.xml', goals:'clean install'
-          
         }
         
       }
@@ -23,6 +22,12 @@ pipeline {
       agent any
       steps {
         script {
+          def server = Artifactory.server "ART"
+          def rtMaven = Artifactory.newMavenBuild()
+          rtMaven.tool = "Maven Default"
+          rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'libs-snapshot-local', server: server
+          rtMaven.deployer releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
+          def buildInfo = rtMaven.run pom:pom.xml, goals:'install'
           server.publishBuildInfo buildInfo
         }
         
