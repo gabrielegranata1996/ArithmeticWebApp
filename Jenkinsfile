@@ -20,8 +20,8 @@ pipeline {
       agent any
       steps {
         script {
-          echo rtMaven
-          echo server
+          echo "${rtMaven}"
+          echo "${server}"
         }
         
       }
