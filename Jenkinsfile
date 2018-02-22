@@ -12,7 +12,6 @@ pipeline {
         script {
           def server = Artifactory.server "ART"
           def rtMaven = Artifactory.newMavenBuild();
-          def buildInfo
         }
         
       }
@@ -21,9 +20,8 @@ pipeline {
       agent any
       steps {
         script {
-          rtMaven.tool = "Maven Default"
-          rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'libs-snapshot-local', server: server
-          rtMaven.deployer releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
+          echo "${rtMaven}"
+          echo "${server}"
         }
         
       }
@@ -32,7 +30,8 @@ pipeline {
       agent any
       steps {
         script {
-          buildInfo = rtMaven.run pom:'pom.xml', goals:'clean install'
+          def buildInfo
+          buildInfo = ${rtMaven}.run pom:'pom.xml', goals:'clean install'
         }
         
       }
@@ -41,7 +40,7 @@ pipeline {
       agent any
       steps {
         script {
-          server.publishBuildInfo buildInfo
+          ${server}.publishBuildInfo ${buildInfo}
         }
         
       }
