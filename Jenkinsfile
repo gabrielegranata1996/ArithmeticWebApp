@@ -7,21 +7,12 @@ pipeline {
         git 'https://github.com/gabrielegranata1996/ArithmeticWebApp.git'
       }
     }
-    stage('Configuration') {
-      steps {
-        script {
-          def server = Artifactory.server "ART"
-          def rtMaven = Artifactory.newMavenBuild()
-        }
-        
-      }
-    }
     stage('Artifactory Config') {
       agent any
       steps {
         script {
-          echo "${env.server}"
-          echo "${env.rtMaven}"
+          echo ${env.server}
+          echo ${env.rtMaven}
         }
         
       }
