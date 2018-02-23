@@ -31,7 +31,7 @@ pipeline {
     stage('Sonar Inspection') {
       steps {
         script {
-          withSonarQubeEnv('My server Sonar'){
+          withSonarQubeEnv('ArithmeticOperationsWebApp Maven Webapp'){
             def rtMaven = Artifactory.newMavenBuild()
             rtMaven.tool = "Maven Default"
             rtMaven.run pom:'pom.xml', goals:'clean package sonar:sonar'
