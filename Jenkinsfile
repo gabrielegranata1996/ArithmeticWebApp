@@ -39,7 +39,6 @@ pipeline {
           }
         }
         
-        waitForQualityGate()
       }
     }
     stage('Sonar Quality Gate') {
