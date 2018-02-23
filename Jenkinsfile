@@ -62,7 +62,7 @@ pipeline {
           rtMaven.tool = "Maven Default"
           rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'libs-snapshot-local', server: server
           rtMaven.deployer releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
-          def buildInfo = rtMaven.run pom:pom.xml, goals:'install'
+          def buildInfo = rtMaven.run pom:'pom.xml', goals:'install'
           server.publishBuildInfo buildInfo
         }
         
