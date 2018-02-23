@@ -32,7 +32,7 @@ pipeline {
       agent any
       steps {
         script {
-          withSonarQubeEnv('ArithmeticOperationsWebApp Maven Webapp'){
+          withSonarQubeEnv('Sonar'){
             def rtMaven = Artifactory.newMavenBuild()
             rtMaven.tool = "Maven Default"
             rtMaven.run pom:'pom.xml', goals:'clean package sonar:sonar'
