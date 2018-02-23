@@ -29,6 +29,7 @@ pipeline {
       }
     }
     stage('Sonar Inspection') {
+      agent any
       steps {
         script {
           withSonarQubeEnv('ArithmeticOperationsWebApp Maven Webapp'){
@@ -38,6 +39,7 @@ pipeline {
           }
         }
         
+        waitForQualityGate()
       }
     }
     stage('Sonar Quality Gate') {
