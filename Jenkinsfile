@@ -23,7 +23,7 @@ pipeline {
       steps {
         script {
           def server = Artifactory.server "ART"
-          def rtMaven = Artifactory.newMavenBuild()
+          def rtMaven = Artifactory.newMavenBuild();
           rtMaven.tool = "Maven Default"
           rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'libs-snapshot-local', server: server
           rtMaven.deployer releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
