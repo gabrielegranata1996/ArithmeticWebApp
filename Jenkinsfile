@@ -13,22 +13,42 @@ pipeline {
         script {
           def rtMaven = Artifactory.newMavenBuild()
           rtMaven.tool = "Maven Default"
-          rtMaven.run pom:'pom.xml', goals:'clean install'
+          rtMaven.run pom:'pom.xml', goals:'compile'
         }
         
       }
     }
-    stage('Publish Build') {
-      agent any
+    stage('Maven Test') {
       steps {
         script {
-          def server = Artifactory.server "ART"
-          def rtMaven = Artifactory.newMavenBuild();
+          def rtMaven = Artifactory.newMavenBuild()
           rtMaven.tool = "Maven Default"
-          rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'libs-snapshot-local', server: server
-          rtMaven.deployer releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
-          def buildInfo = rtMaven.run pom:'pom.xml', goals:'install'
-          server.publishBuildInfo buildInfo
+          rtMaven.run pom:'pom.xml', goals:'test'
+        }
+        
+      }
+    }
+    stage('Sonar Inspection') {
+      steps {
+        script {
+          def rtMaven = Artifactory.newMavenBuild()
+          rtMaven.tool = "Maven Default"
+          rtMaven.run pom:'pom.xml', goals:'sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=f662fa46cf0593d0b52b0b7a7ade779792813ab2'
+        }
+        
+      }
+    }
+    stage('Sonar Quality Gate') {
+      steps {
+        waitForQualityGate()
+      }
+    }
+    stage('Package') {
+      steps {
+        script {
+          def rtMaven = Artifactory.newMavenBuild()
+          rtMaven.tool = "Maven Default"
+          rtMaven.run pom:'pom.xml', goals:'package'
         }
         
       }
