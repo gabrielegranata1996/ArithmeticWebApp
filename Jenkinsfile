@@ -39,7 +39,6 @@ pipeline {
           }
         }
         
-        waitForQualityGate()
       }
     }
     stage('Sonar Quality Gate') {
@@ -55,12 +54,16 @@ pipeline {
         
       }
     }
-    stage('Package') {
+    stage('Publish Build') {
       steps {
         script {
-          def rtMaven = Artifactory.newMavenBuild()
+          def server = Artifactory.server "ART"
+          def rtMaven = Artifactory.newMavenBuild();
           rtMaven.tool = "Maven Default"
-          rtMaven.run pom:'pom.xml', goals:'package'
+          rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'libs-snapshot-local', server: server
+          rtMaven.deployer releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
+          def buildInfo = rtMaven.run pom:pom.xml, goals:'install'
+          server.publishBuildInfo buildInfo
         }
         
       }
