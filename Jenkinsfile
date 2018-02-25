@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage('Clone Sources') {
+    stage('Compile Job') {
       agent any
       steps {
         build 'Compile_ArithmeticWebApp'
