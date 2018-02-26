@@ -12,9 +12,8 @@ pipeline {
         build 'Test_ArithmeticWebApp'
       }
     }
-    stage('Git + Sonar') {
+    stage('Sonar Scanning') {
       steps {
-        git(url: 'https://github.com/gabrielegranata1996/ArithmeticWebApp.git', branch: 'master')
         script {
           withSonarQubeEnv('Sonar_Qube') {
             def rtMaven = Artifactory.newMavenBuild()
@@ -23,6 +22,7 @@ pipeline {
           }
         }
         
+        build 'Sonar_ArithmeticWebApp'
       }
     }
     stage('QualityGate') {
