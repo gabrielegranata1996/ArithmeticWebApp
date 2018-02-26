@@ -2,18 +2,9 @@ pipeline {
   agent any
   stages {
     stage('Compile ArithmeticWebApp') {
-      parallel {
-        stage('Compile ArithmeticWebApp') {
-          agent any
-          steps {
-            build 'Compile_ArithmeticWebApp'
-          }
-        }
-        stage('Git Clone') {
-          steps {
-            git 'https://github.com/gabrielegranata1996/ArithmeticWebApp.git'
-          }
-        }
+      agent any
+      steps {
+        build 'Compile_ArithmeticWebApp'
       }
     }
     stage('Test ArithmeticWebApp') {
@@ -21,12 +12,21 @@ pipeline {
         build 'Test_ArithmeticWebApp'
       }
     }
-    stage('Sonar ArithmeticWebapp') {
-      steps {
-        build 'Sonar_ArithmeticWebApp'
+    stage('Git Clone') {
+      parallel {
+        stage('Git Clone') {
+          steps {
+            git(url: 'https://github.com/gabrielegranata1996/ArithmeticWebApp.git', branch: 'master')
+          }
+        }
+        stage('Sonar ArithmeticWebApp') {
+          steps {
+            build 'Sonar_ArithmeticWebApp'
+          }
+        }
       }
     }
-    stage('QualityGate  ') {
+    stage('QualityGate') {
       steps {
         build 'QualityGate_ArithmeticWebApp'
       }
@@ -36,7 +36,7 @@ pipeline {
         build 'Install_ArithmeticWebApp'
       }
     }
-    stage('Deploy ') {
+    stage('Deploy') {
       steps {
         build 'Deploy_ArithmeticWebApp'
       }
