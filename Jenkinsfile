@@ -4,7 +4,7 @@ pipeline {
     stage('Compile ArithmeticWebApp') {
       agent any
       steps {
-        build 'Compile_ArithmeticWebApp'
+        build '${Compile_ArithmeticWebApp}'
       }
     }
     stage('Test ArithmeticWebApp') {
