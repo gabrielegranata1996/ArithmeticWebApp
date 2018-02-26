@@ -12,12 +12,7 @@ pipeline {
         build 'Test_ArithmeticWebApp'
       }
     }
-    stage('Sonar Scanning') {
-      steps {
-        build 'Sonar_ArithmeticWebApp'
-      }
-    }
-    stage('QualityGate') {
+    stage('Sonar Quality Gate') {
       steps {
         build 'QualityGate_ArithmeticWebApp'
       }
