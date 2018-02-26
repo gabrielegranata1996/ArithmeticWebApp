@@ -14,14 +14,6 @@ pipeline {
     }
     stage('Sonar Scanning') {
       steps {
-        script {
-          withSonarQubeEnv('Sonar_Qube') {
-            def rtMaven = Artifactory.newMavenBuild()
-            rtMaven.tool = "Maven Default"
-            rtMaven.run pom: 'pom.xml', goals:'sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=f662fa46cf0593d0b52b0b7a7ade779792813ab2'
-          }
-        }
-        
         build 'Sonar_ArithmeticWebApp'
       }
     }
