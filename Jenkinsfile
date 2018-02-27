@@ -22,10 +22,5 @@ pipeline {
         build 'Install_ArithmeticWebApp'
       }
     }
-    stage('Deploy') {
-      steps {
-        build 'Deploy_ArithmeticWebApp'
-      }
-    }
   }
 }
