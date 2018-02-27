@@ -14,7 +14,7 @@ pipeline {
     }
     stage('Sonar Quality Gate') {
       steps {
-        build 'QualityGate_ArithmeticWebApp'
+        build 'Sonar_ArithmeticWebApp'
       }
     }
     stage('Publish Build') {
