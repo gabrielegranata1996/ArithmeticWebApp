@@ -12,5 +12,15 @@ pipeline {
         build 'Test_ArithmeticWebApp'
       }
     }
+    stage('Sonar Quality Gate') {
+      steps {
+        build 'Sonar_ArithmeticWebApp'
+      }
+    }
+    stage('Publish Build') {
+      steps {
+        build 'Install_ArithmeticWebApp'
+      }
+    }
   }
 }
