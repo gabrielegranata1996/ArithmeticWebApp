@@ -22,7 +22,7 @@ pipeline {
         build 'Install_ArithmeticWebApp'
       }
     }
-    stage('') {
+    stage('Test_Performance') {
       steps {
         build 'Test_Performance'
       }
